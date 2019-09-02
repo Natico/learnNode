@@ -1,8 +1,31 @@
+const debiug = require('debug')('app:startup');
+const config = require('config');
+const morgan = require('morgan');
+const hemlet = require('helmet');
 const Joi = require('joi');
 const express = require('express');
+const logger = require('./logger');
+
 const app = express();
 
+
+console.log(`NODE_ENV : ${process.env.NODE_ENV}`);
+console.log(`app`);
+console.log();
+
+app.set('view engin', "pug");
+app.set('views', './views');
+
+
+
 app.use(express.json());
+app.use(express.urlencoded({extended : true}));
+app.use(express.static('public'));
+app.use(hemlet());
+app.use(morgan('tiny'));
+
+app.use(logger);
+
 
 const courses = [{
         id: 1,
